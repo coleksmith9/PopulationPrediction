@@ -1,0 +1,13 @@
+<CompileCmd cmd="g++">
+	<Arg addSpace=true>-Wall -o</Arg>
+	<Arg>"main"</Arg>
+	<Arg addSpace=true>*.hpp</Arg>
+	<Arg addSpace=true>*.cpp</Arg>
+</CompileCmd>
+<ExecuteCmd>
+	<Arg>"main"</Arg>
+</ExecuteCmd>
+<LineCount>
+	<Files>*.cpp</Files>
+	<Files>*.hpp</Files>
+</LineCount>
