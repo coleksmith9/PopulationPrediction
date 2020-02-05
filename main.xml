@@ -1,13 +1,15 @@
 <CompileCmd cmd="g++">
-	<Arg addSpace=true>-Wall -o</Arg>
-	<Arg>"main"</Arg>
 	<Arg addSpace=true>*.hpp</Arg>
 	<Arg addSpace=true>*.cpp</Arg>
+	<Arg addSpace=true>-I./include -o</Arg>
+	<Arg>"main"</Arg>
+	<Arg addSpace=true>-L./lib -lsfml-graphics -lsfml-window -lsfml-system</Arg>
 </CompileCmd>
 <ExecuteCmd>
 	<Arg>"main"</Arg>
 </ExecuteCmd>
 <LineCount>
-	<Files>*.cpp</Files>
-	<Files>*.hpp</Files>
+	<Files>./*.hpp</Files>
+	<Files>./*.cpp</Files>
+	<Files>./*.tpp</Files>
 </LineCount>
