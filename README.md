@@ -1,5 +1,5 @@
 # PopulationPrediction
-Given initial populations, this program can predict the stable population sizes using Lotka–Volterra equation.
+Given initial populations, this program can predict the stable population sizes using Lotka–Volterra differential equation.
 
 Todo:
 1. Draft a UI
