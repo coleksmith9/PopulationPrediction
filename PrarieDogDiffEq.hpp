@@ -8,10 +8,10 @@
 
 class PrarieDogDiffEq: public UnsolvedDiffEq {
 	public:
-		PrarieDogDiffEq(std::string funcName);
-		void setGrassRef(std::shared_ptr<UnsolvedDiffEq> &grassDERef);
+		explicit PrarieDogDiffEq(const std::string &funcName);
+		void setGrassRef(const std::shared_ptr<UnsolvedDiffEq> &grassDERef);
 	protected:
-		double calculateValue(void);
+		double calculateValue(void) override;
 		std::shared_ptr<UnsolvedDiffEq> grassDERef;
 };
 

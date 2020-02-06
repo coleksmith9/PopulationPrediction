@@ -8,11 +8,11 @@
 
 class GrassDiffEq: public UnsolvedDiffEq {
 	public:
-		GrassDiffEq(std::string funcName);
+		explicit GrassDiffEq(const std::string &funcName);
 		void incrementIndependentVar(void);
-		void setPrarieDogRef(std::shared_ptr<UnsolvedDiffEq> &prarieDogDERef);
+		void setPrarieDogRef(const std::shared_ptr<UnsolvedDiffEq> &prarieDogDERef);
 	protected:
-		double calculateValue(void);
+		double calculateValue(void) override;
 		std::shared_ptr<UnsolvedDiffEq> prarieDogDERef;
 };
 
