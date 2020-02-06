@@ -8,7 +8,7 @@
 
 class UnsolvedDiffEq {
 	public:
-		UnsolvedDiffEq(std::string funcName);
+		UnsolvedDiffEq(const std::string &funcName);
 		void setIndependentVar(double independentVar);
 		const double getIndependentVar(void) const;
 		void setIndependentVarStep(double indepentVarStep);
@@ -16,7 +16,7 @@ class UnsolvedDiffEq {
 		const std::string& getFuncName(void) const;
 		void setDependentVarInitialValue(double dependentVarInit);
 		const double getDependentVar(void) const;
-		void setConstants(std::shared_ptr<ConstantContainer> &constants);
+		void setConstants(const std::shared_ptr<ConstantContainer> &constants);
 		void incrementIndependentVar(void);
 		void calculateNewVal(void);
 	protected:

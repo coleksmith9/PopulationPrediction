@@ -8,11 +8,11 @@ CSVFile::CSVFile(void){
 	//
 }
 
-CSVFile::CSVFile(std::string fileName){
+CSVFile::CSVFile(const std::string &fileName){
 	this->fileName=fileName;
 }
 
-void CSVFile::setFileName(std::string fileName){
+void CSVFile::setFileName(const std::string &fileName){
 	this->fileName=fileName;
 }
 
@@ -24,7 +24,7 @@ void CSVFile::addDataRow(std::vector<double> &row){
 	this->data.push_back(row);
 }
 
-void CSVFile::setDataRow(const int index, std::vector<double> &row){
+void CSVFile::setDataRow(const int index, const std::vector<double> &row){
 	if (index<this->data.size()){
 		this->data.at(index)=row;
 	}

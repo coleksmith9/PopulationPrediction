@@ -8,11 +8,11 @@
 class CSVFile {
 	public:
 		CSVFile(void);
-		CSVFile(std::string fileName);
-		void setFileName(std::string fileName);
+		explicit CSVFile(const std::string &fileName);
+		void setFileName(const std::string &fileName);
 		void addHeader(std::string header);
 		void addDataRow(std::vector<double> &row);
-		void setDataRow(const int index, std::vector<double> &row);
+		void setDataRow(const int index, const std::vector<double> &row);
 		const std::vector<double>& getDataRow(const int index) const;
 		double getDataRowAndHeader(const int index, const std::string &header) const;
 		void writeFile(void);

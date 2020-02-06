@@ -52,11 +52,11 @@ set shortmess=aoO
 badd +1 main.cpp
 badd +8 data/constants.txt
 badd +1 ConstantContainer.cpp
-badd +3 ConstantContainer.hpp
+badd +4 ConstantContainer.hpp
 badd +1 UnsolvedDiffEq.cpp
 badd +15 UnsolvedDiffEq.hpp
-badd +29 GrassDiffEq.cpp
-badd +19 PrarieDogDiffEq.cpp
+badd +28 GrassDiffEq.cpp
+badd +17 PrarieDogDiffEq.cpp
 badd +1 PrarieDogDiffEq.hpp
 badd +1 GrassDiffEq.hpp
 badd +1 CSVFile.cpp
@@ -622,12 +622,12 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 23 - ((21 * winheight(0) + 30) / 61)
+let s:l = 12 - ((10 * winheight(0) + 30) / 61)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-23
-normal! 0
+12
+normal! 052|
 wincmd w
 argglobal
 if bufexists('CSVFile.cpp') | buffer CSVFile.cpp | else | edit CSVFile.cpp | endif
@@ -750,12 +750,12 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 52 - ((51 * winheight(0) + 30) / 61)
+let s:l = 15 - ((14 * winheight(0) + 30) / 61)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-52
-normal! 014|
+15
+normal! 045|
 wincmd w
 exe '1resize ' . ((&lines * 61 + 32) / 65)
 exe 'vert 1resize ' . ((&columns * 96 + 96) / 192)
@@ -897,12 +897,12 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 17 - ((16 * winheight(0) + 15) / 31)
+let s:l = 8 - ((7 * winheight(0) + 15) / 31)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-17
-normal! 093|
+8
+normal! 052|
 wincmd w
 argglobal
 if bufexists('PrarieDogDiffEq.hpp') | buffer PrarieDogDiffEq.hpp | else | edit PrarieDogDiffEq.hpp | endif
@@ -1025,12 +1025,12 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 1 - ((0 * winheight(0) + 15) / 30)
+let s:l = 11 - ((10 * winheight(0) + 15) / 30)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-1
-normal! 0
+11
+normal! 060|
 wincmd w
 exe '1resize ' . ((&lines * 31 + 32) / 65)
 exe '2resize ' . ((&lines * 30 + 32) / 65)
@@ -1170,12 +1170,12 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 28 - ((25 * winheight(0) + 15) / 31)
+let s:l = 8 - ((5 * winheight(0) + 15) / 31)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-28
-normal! 082|
+8
+normal! 044|
 wincmd w
 argglobal
 if bufexists('GrassDiffEq.hpp') | buffer GrassDiffEq.hpp | else | edit GrassDiffEq.hpp | endif
@@ -1303,7 +1303,7 @@ if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
 11
-normal! 050|
+normal! 056|
 wincmd w
 exe '1resize ' . ((&lines * 31 + 32) / 65)
 exe '2resize ' . ((&lines * 30 + 32) / 65)
@@ -1443,12 +1443,12 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 15 - ((14 * winheight(0) + 31) / 62)
+let s:l = 11 - ((10 * winheight(0) + 31) / 62)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-15
-normal! 017|
+11
+normal! 050|
 wincmd w
 argglobal
 if bufexists('UnsolvedDiffEq.cpp') | buffer UnsolvedDiffEq.cpp | else | edit UnsolvedDiffEq.cpp | endif
@@ -1571,13 +1571,14 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 44 - ((43 * winheight(0) + 31) / 62)
+let s:l = 7 - ((6 * winheight(0) + 31) / 62)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-44
-normal! 09|
+7
+normal! 050|
 wincmd w
+2wincmd w
 exe 'vert 1resize ' . ((&columns * 96 + 96) / 192)
 exe 'vert 2resize ' . ((&columns * 95 + 96) / 192)
 tabnext
@@ -1716,12 +1717,12 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 4 - ((3 * winheight(0) + 31) / 62)
+let s:l = 10 - ((9 * winheight(0) + 31) / 62)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-4
-normal! 0
+10
+normal! 025|
 wincmd w
 argglobal
 if bufexists('ConstantContainer.cpp') | buffer ConstantContainer.cpp | else | edit ConstantContainer.cpp | endif
@@ -1989,7 +1990,7 @@ exe s:l
 normal! zt
 3
 normal! 0
-tabnext 8
+tabnext 6
 set stal=1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0
   silent exe 'bwipe ' . s:wipebuf

@@ -4,7 +4,7 @@
 #include <string>
 #include <memory>
 
-UnsolvedDiffEq::UnsolvedDiffEq(std::string funcName){
+UnsolvedDiffEq::UnsolvedDiffEq(const std::string &funcName){
 	this->funcName=funcName;
 	this->independentVarStep=0;
 	this->independentVar=0;
@@ -35,7 +35,7 @@ const double UnsolvedDiffEq::getDependentVar(void) const {
 	return this->curFuncVals.first;
 }
 
-void UnsolvedDiffEq::setConstants(std::shared_ptr<ConstantContainer> &constants){
+void UnsolvedDiffEq::setConstants(const std::shared_ptr<ConstantContainer> &constants){
 	this->constants=constants;
 }
 

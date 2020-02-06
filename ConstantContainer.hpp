@@ -7,7 +7,7 @@
 
 class ConstantContainer {
 	public:
-		ConstantContainer(const std::string &fileName);
+		explicit ConstantContainer(const std::string &fileName);
 		double getConstant(const std::string &id) const;
 	private:
 		void parseRawData(std::ifstream &iFile);
