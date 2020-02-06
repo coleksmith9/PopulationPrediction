@@ -1,4 +1,5 @@
 #include "CSVFile.hpp"
+#include <algorithm>
 #include <fstream>
 #include <string>
 #include <vector>
@@ -21,6 +22,28 @@ void CSVFile::addHeader(std::string header){
 
 void CSVFile::addDataRow(std::vector<double> &row){
 	this->data.push_back(row);
+}
+
+void CSVFile::setDataRow(const int index, std::vector<double> &row){
+	if (index<this->data.size()){
+		this->data.at(index)=row;
+	}
+}
+
+const std::vector<double>& CSVFile::getDataRow(const int index) const {
+	if (index<this->data.size()){
+		return this->data.at(index);
+	}
+	return this->data.at(0);
+}
+
+double CSVFile::getDataRowAndHeader(const int index, const std::string &header) const {
+	const int headerIndex=std::distance(this->headers.begin(),
+			std::find(this->headers.begin(),this->headers.end(),header));
+	if (index<this->data.size() && headerIndex<this->headers.size()){
+		return this->data.at(index).at(headerIndex);
+	}
+	return 0;
 }
 
 void CSVFile::writeFile(void){

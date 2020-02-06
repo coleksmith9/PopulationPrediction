@@ -12,6 +12,9 @@ class CSVFile {
 		void setFileName(std::string fileName);
 		void addHeader(std::string header);
 		void addDataRow(std::vector<double> &row);
+		void setDataRow(const int index, std::vector<double> &row);
+		const std::vector<double>& getDataRow(const int index) const;
+		double getDataRowAndHeader(const int index, const std::string &header) const;
 		void writeFile(void);
 		void clear(void);
 	private:
