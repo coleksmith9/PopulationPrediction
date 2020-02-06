@@ -1,1 +1,0 @@
- g++ *.cpp -I./include -o main.exe -L./lib -lsfml-graphics -lsfml-window -lsfml-system
