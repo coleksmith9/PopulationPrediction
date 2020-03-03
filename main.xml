@@ -1,15 +1,6 @@
-<CompileCmd cmd="g++">
-	<Arg addSpace=true>*.hpp</Arg>
-	<Arg addSpace=true>*.cpp</Arg>
-	<Arg addSpace=true>-I./include -o</Arg>
-	<Arg>"./bin/main"</Arg>
-	<Arg addSpace=true>-L./lib -lsfml-graphics -lsfml-window -lsfml-system</Arg>
-</CompileCmd>
-<ExecuteCmd>
-	<Arg>"./bin/main"</Arg>
+<CompileCmd cmd=""></CompileCmd>
+<ExecuteCmd cmd="C:\Program Files\Python36\python.exe">
+	<Arg addSpace=true>-u</Arg>
+	<Arg>"main.py"</Arg>
 </ExecuteCmd>
-<LineCount>
-	<Files>./*.hpp</Files>
-	<Files>./*.cpp</Files>
-	<Files>./*.tpp</Files>
-</LineCount>
+<LineCount></LineCount>
