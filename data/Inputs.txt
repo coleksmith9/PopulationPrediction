@@ -1,0 +1,8 @@
+GrassGrowthRate=0.0078123
+GrassEaten=0.0010958904
+PrarieDogGrowthRate=0.001
+PrarieDogDeathRate=0.03
+TimeSpan=10
+TimeIncrement=1.0
+GrassIV=50
+PrarieDogIV=10

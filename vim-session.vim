@@ -52,8 +52,8 @@ if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
 endif
 set shortmess=aoO
 badd +12 main.py
-badd +3 debug/Inputs.txt
-badd +0 data/Inputs.txt
+badd +1 debug/Inputs.txt
+badd +1 data/Inputs.txt
 argglobal
 silent! argdel *
 $argadd main.py
@@ -189,12 +189,12 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 110 - ((38 * winheight(0) + 31) / 62)
+let s:l = 180 - ((39 * winheight(0) + 31) / 62)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-110
-normal! 027|
+180
+normal! 05|
 tabnext
 edit data/Inputs.txt
 set splitbelow splitright
@@ -331,12 +331,12 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 1 - ((0 * winheight(0) + 31) / 62)
+let s:l = 5 - ((4 * winheight(0) + 31) / 62)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-1
-normal! 0
+5
+normal! 011|
 wincmd w
 argglobal
 if bufexists('debug/Inputs.txt') | buffer debug/Inputs.txt | else | edit debug/Inputs.txt | endif
@@ -459,12 +459,12 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 3 - ((2 * winheight(0) + 31) / 62)
+let s:l = 4 - ((3 * winheight(0) + 31) / 62)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-3
-normal! 07|
+4
+normal! 0
 wincmd w
 exe 'vert 1resize ' . ((&columns * 96 + 96) / 192)
 exe 'vert 2resize ' . ((&columns * 95 + 96) / 192)

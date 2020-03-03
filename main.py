@@ -50,13 +50,14 @@ class GivenNumbers(object):
             tempFile.write("{0}={1}\n".format(k,v))
 
 
-class ThreeDPair(object):
-    def __init__(self) -> None:
-        self.x=0
-        self.y=0
-        self.z=0
+class TwoDPair(object):
+    def __init__(self, x: float=0, y: float=0) -> None:
+        self.x=x
+        self.y=y
 
-    def __init__(self,x: float, y: float,z: float) -> None:
+
+class ThreeDPair(object):
+    def __init__(self,x: float=0, y: float=0,z: float=0) -> None:
         self.x=x
         self.y=y
         self.z=z
@@ -64,13 +65,7 @@ class ThreeDPair(object):
 
 class UnsolvedDE(metaclass=ABCMeta):
     def debug() -> bool:
-        rv=True
-        #unsolvedDE=UnsolvedDE(GivenNumbers("debug/Inputs.txt"))
-        #unsolvedDE.setIndependentVarInc(2)
-        #unsolvedDE.setIV(100)
-        #rv=(unsolvedDE.getIndependentVarInc()==2)
-        #rv=(unsolvedDE.getIV()==100)
-        return rv
+        return True
 
     def __init__(self,constants):
         self.constants=constants
@@ -78,7 +73,7 @@ class UnsolvedDE(metaclass=ABCMeta):
         self.__initData()
         self.__independentVarInc=1
 
-    def __initData() -> None:
+    def __initData(self) -> None:
         self.__data.append(ThreeDPair(0,0,0))
 
     def setIndependentVarInc(self,newInc: float) -> None:
@@ -93,39 +88,140 @@ class UnsolvedDE(metaclass=ABCMeta):
     def getIV(self) -> float:
         return self.__data[0].z
 
-    def incrementIndependentVar(self,val: float) -> None:
-        threeDPoint=ThreeDPoint()
-        threeDPoint.x=self.__data[len(self.__data)-1].x+self.__independentVarInc;
-        threeDPoint.y=self.calculate();
-        self.__data.append(threeDPoint)
+    def getDependentVar(self) -> float:
+        return self.__data[len(self.__data)-2].z
+
+    def getDataPoint(self):
+        return TwoDPair(self.__data[len(self.__data)-1].x,self.__data[len(self.__data)-1].z)
+
+    def incrementIndependentVar(self) -> None:
+        threeDPair=ThreeDPair()
+        threeDPair.x=self.__data[len(self.__data)-1].x+self.__independentVarInc;
+        threeDPair.y=self.calculate();
+        self.__data.append(threeDPair)
 
     def calculateValue(self) -> None:
-        threeDPoint.z=self.__data[len(self.__data)-2].z+self.__data[len(self.__data)-1].y
+        self.__data[len(self.__data)-1].z=self.__data[len(self.__data)-2].z+self.__data[len(self.__data)-1].y
 
     @abstractmethod
-    def calculate() -> float:
+    def calculate(self) -> float:
         raise NotImplementedError
 
 
 class GrassUDE(UnsolvedDE):
-    def __init__(self,prarieDogUDE):
+    def debug() -> bool:
+        rv=True
+        constants=GivenNumbers("debug/Inputs.txt")
+        grassUDE=GrassUDE(constants)
+        grassUDE.setIndependentVarInc(2)
+        grassUDE.setIV(100)
+        rv=(grassUDE.getIndependentVarInc()==2)
+        rv=(grassUDE.getIV()==100)
+        return rv
+
+    def __init__(self,constants,prarieDogUDE=None):
+        super(GrassUDE,self).__init__(constants)
+        self.setPrarieDogUDE(prarieDogUDE)
+
+    def setPrarieDogUDE(self,prarieDogUDE):
         self.prarieDogUDE=prarieDogUDE
 
-    def calcualte() -> float:
-        return 0.0
+    def calculate(self) -> float:
+        popGrowth=self.constants.get("GrassGrowthRate")*self.getDependentVar()
+        popDecline=self.constants.get("GrassEaten")*self.getDependentVar()*self.prarieDogUDE.getDependentVar()
+        return popGrowth-popDecline
 
 
 class PrarieDogUDE(UnsolvedDE):
-    def __init__(self,grassUDE):
+    def debug() -> bool:
+        rv=True
+        constants=GivenNumbers("debug/Inputs.txt")
+        prarieDogUDE=PrarieDogUDE(constants)
+        prarieDogUDE.setIndependentVarInc(2)
+        prarieDogUDE.setIV(100)
+        rv=(prarieDogUDE.getIndependentVarInc()==2)
+        rv=(prarieDogUDE.getIV()==100)
+        return rv
+
+    def __init__(self,constants,grassUDE=None):
+        super(PrarieDogUDE,self).__init__(constants)
+        self.setGrassUDE(grassUDE)
+
+    def setGrassUDE(self,grassUDE):
         self.grassUDE=grassUDE
 
-    def calcualte() -> float:
-        return 0.0
+    def calculate(self) -> float:
+        popGrowth=self.constants.get("PrarieDogGrowthRate")*self.getDependentVar()*self.grassUDE.getDependentVar()
+        popDecline=self.constants.get("PrarieDogDeathRate")*self.getDependentVar()
+        return popGrowth-popDecline
+
+
+class CSVFile(object):
+    def debug() -> bool:
+        rv=True
+        return rv
+
+    def __init__(self, headerList=None) -> None:
+        self.__header=list()
+        self.__data=list()
+        if headerList!=None:
+            self.__header=leaderList
+
+    def addHeader(self,header->str) -> None:
+        self.__header.append(header)
+
+    def addDataRow(self,dataList->list) -> None:
+        self.__data.append(dataList)
+
+
+class Simulation(object):
+    def debug() -> bool:
+        rv=True
+        sim=Simulation(GivenNumbers("debug/Inputs.txt"))
+        sim.run()
+        #rv=(self.__grassUDE.getDependentVar()==0)
+        #rv=(self.__prarieDogUDE.getDependentVar()==0)
+        return rv
+
+    def __init__(self,constants) -> None:
+        self.__constants=constants
+        self.__grassUDE=None
+        self.__prarieDogUDE=None
+        self.setup()
+
+    def setup(self) -> None:
+        self.__grassUDE=GrassUDE(self.__constants)
+        self.__prarieDogUDE=PrarieDogUDE(self.__constants)
+
+        self.__prarieDogUDE.setGrassUDE(self.__grassUDE)
+        self.__grassUDE.setPrarieDogUDE(self.__prarieDogUDE)
+
+        self.__grassUDE.setIndependentVarInc(self.__constants.get("TimeIncrement"))
+        self.__prarieDogUDE.setIndependentVarInc(self.__constants.get("TimeIncrement"))
+
+        self.__grassUDE.setIV(self.__constants.get("GrassIV"))
+        self.__prarieDogUDE.setIV(self.__constants.get("PrarieDogIV"))
+
+    def run(self) -> None:
+        for i in range(0,int(self.__constants.get("TimeSpan"))):
+            self.__grassUDE.incrementIndependentVar()
+            self.__prarieDogUDE.incrementIndependentVar()
+            self.__grassUDE.calculateValue()
+            self.__prarieDogUDE.calculateValue()
+            
+            grassPnt=self.__grassUDE.getDataPoint()
+            prarieDogPnt=self.__prarieDogUDE.getDataPoint()
+            print("Grass:: {0}: {1}  PrarieDog:: {2}: {3}".format(grassPnt.x,grassPnt.y,prarieDogPnt.x,prarieDogPnt.y))
+
+    #def getDataPoint(self, time: float):
 
 
 def debug() -> None:
     rv=GivenNumbers.debug()
     rv&=UnsolvedDE.debug()
+    rv&=GrassUDE.debug()
+    rv&=PrarieDogUDE.debug()
+    rv&=Simulation.debug()
     print("Debug Successful: {0}".format(rv))
 
 
