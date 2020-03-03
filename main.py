@@ -1,3 +1,4 @@
+import os.path
 from abc import ABCMeta,abstractmethod
 
 class GivenNumbers(object):
@@ -31,6 +32,7 @@ class GivenNumbers(object):
             parts=line.split('=')
             parts[1]=parts[1][0:len(parts[1])-1]
             self.__values[parts[0]]=float(parts[1])
+        tempFile.close()
 
     def get(self,numID: str) -> float:
         if (numID in self.__values):
@@ -48,6 +50,7 @@ class GivenNumbers(object):
         tempFile=open(self.__filePath,"w")
         for k,v in self.__values.items():
             tempFile.write("{0}={1}\n".format(k,v))
+        tempFile.close()
 
 
 class TwoDPair(object):
@@ -87,6 +90,9 @@ class UnsolvedDE(metaclass=ABCMeta):
 
     def getIV(self) -> float:
         return self.__data[0].z
+
+    def getIndependentVar(self) -> float:
+        return self.__data[len(self.__data)-1].x
 
     def getDependentVar(self) -> float:
         return self.__data[len(self.__data)-2].z
@@ -159,35 +165,104 @@ class PrarieDogUDE(UnsolvedDE):
 class CSVFile(object):
     def debug() -> bool:
         rv=True
+        csvFile=CSVFile("debug/CSVTest.csv")
+        rv=(csvFile.getDataRow(0)[0]=="1")
+        rv=(csvFile.getDataRow(1)[0]=="5")
+        rv=(csvFile.getDataRow(2)[0]=="1")
+        rv=(len(csvFile.getDataRow(3))==0)
+        rv=(csvFile.lookupDataRow("5")[2]=="7")
+        csvFile.write()
         return rv
 
-    def __init__(self, headerList=None) -> None:
-        self.__header=list()
+    def __init__(self, filePath: str) -> None:
+        self.__filePath=filePath
+        self.__headers=list()
         self.__data=list()
-        if headerList!=None:
-            self.__header=leaderList
+        self.read()
 
-    def addHeader(self,header->str) -> None:
-        self.__header.append(header)
+    def addHeader(self,header: str) -> None:
+        self.__headers.append(header)
 
-    def addDataRow(self,dataList->list) -> None:
+    def addDataRow(self,dataList: list) -> None:
         self.__data.append(dataList)
+
+    def read(self,filePath=None) -> None:
+        if (filePath!=None):
+            self.write()
+            self.clear()
+            self.__filePath=filePath
+        if os.path.exists(self.__filePath):
+            tempFile=open(self.__filePath,"r")
+            self.__headers=tempFile.readline().rstrip("\r\n").split(',')
+            for line in tempFile:
+                self.addDataRow(line.rstrip("\r\n").split(','))
+            tempFile.close()
+        #print(self.__headers)
+        #print(self.__data)
+
+    def getDataRow(self, index: int) -> list:
+        if (index<len(self.__data)):
+            return self.__data[index]
+        return list()
+
+    def lookupDataRow(self, val: str) -> list:
+        rv=list()
+        for i in range(0,len(self.__data)):
+            rv=self.getDataRow(i)
+            if rv[0]==val:
+                break
+        return rv
+    
+    def write(self) -> None:
+        tempFile=open(self.__filePath,"w")
+        for i in range(0,len(self.__headers)):
+            tempFile.write(self.__headers[i])
+            if i!=len(self.__headers)-1:
+                tempFile.write(',')
+            else:
+                tempFile.write('\n')
+        for x in self.__data:
+            for i in range(0,len(x)):
+                tempFile.write("{0}".format(x[i]))
+                if i!=len(x)-1:
+                    tempFile.write(',')
+                else:
+                    tempFile.write('\n')
+        tempFile.close()
+
+    def clear(self) -> None:
+        self.__data=list()
+
+    def clearHeaders(self) -> None:
+        self.__headers=list()
 
 
 class Simulation(object):
     def debug() -> bool:
         rv=True
         sim=Simulation(GivenNumbers("debug/Inputs.txt"))
+        sim.setResultsFile("debug/Results.txt")
         sim.run()
-        #rv=(self.__grassUDE.getDependentVar()==0)
-        #rv=(self.__prarieDogUDE.getDependentVar()==0)
+        threeDPoint=sim.getDataPoint(10)
+        rv=(threeDPoint.x==0)
+        rv=(threeDPoint.y==0)
+        rv=(threeDPoint.z==0)
+        sim.save()
         return rv
 
     def __init__(self,constants) -> None:
         self.__constants=constants
         self.__grassUDE=None
         self.__prarieDogUDE=None
+        self.__csvFile=None
+        self.__setupCSVFile()
         self.setup()
+
+    def __setupCSVFile(self) -> None:
+        self.__csvFile=CSVFile("data/results.csv")
+        self.__csvFile.addHeader("Time")
+        self.__csvFile.addHeader("GrassPopulation")
+        self.__csvFile.addHeader("PrarieDogPopulation")
 
     def setup(self) -> None:
         self.__grassUDE=GrassUDE(self.__constants)
@@ -202,22 +277,41 @@ class Simulation(object):
         self.__grassUDE.setIV(self.__constants.get("GrassIV"))
         self.__prarieDogUDE.setIV(self.__constants.get("PrarieDogIV"))
 
+    def setResultsFile(self, filePath: str) -> None:
+        self.__csvFile.read(filePath)
+
     def run(self) -> None:
+        self.__csvFile.clear()
         for i in range(0,int(self.__constants.get("TimeSpan"))):
             self.__grassUDE.incrementIndependentVar()
             self.__prarieDogUDE.incrementIndependentVar()
             self.__grassUDE.calculateValue()
             self.__prarieDogUDE.calculateValue()
+            self.__csvFile.addDataRow(\
+                    [self.__grassUDE.getIndependentVar(),\
+                    self.__grassUDE.getDependentVar(),\
+                    self.__prarieDogUDE.getDependentVar()])
             
             grassPnt=self.__grassUDE.getDataPoint()
             prarieDogPnt=self.__prarieDogUDE.getDataPoint()
             print("Grass:: {0}: {1}  PrarieDog:: {2}: {3}".format(grassPnt.x,grassPnt.y,prarieDogPnt.x,prarieDogPnt.y))
 
-    #def getDataPoint(self, time: float):
+    def getDataPoint(self, time: float):
+        tempList=self.__csvFile.lookupDataRow(str(time))
+        rv=ThreeDPair()
+        if len(tempList)>0:
+            rv.x=float(tempList[0])
+            rv.y=float(tempList[1])
+            rv.z=float(tempList[2])
+        return rv
+
+    def save(self) -> None:
+        self.__csvFile.write()
 
 
 def debug() -> None:
     rv=GivenNumbers.debug()
+    rv&=CSVFile.debug()
     rv&=UnsolvedDE.debug()
     rv&=GrassUDE.debug()
     rv&=PrarieDogUDE.debug()
