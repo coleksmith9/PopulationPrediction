@@ -166,6 +166,7 @@ class CSVFile(object):
     def debug() -> bool:
         rv=True
         csvFile=CSVFile("debug/CSVTest.csv")
+        csvFile.read()
         rv=(csvFile.getDataRow(0)[0]=="1")
         rv=(csvFile.getDataRow(1)[0]=="5")
         rv=(csvFile.getDataRow(2)[0]=="1")
@@ -178,7 +179,6 @@ class CSVFile(object):
         self.__filePath=filePath
         self.__headers=list()
         self.__data=list()
-        self.read()
 
     def addHeader(self,header: str) -> None:
         self.__headers.append(header)
@@ -233,9 +233,6 @@ class CSVFile(object):
     def clear(self) -> None:
         self.__data=list()
 
-    def clearHeaders(self) -> None:
-        self.__headers=list()
-
 
 class Simulation(object):
     def debug() -> bool:
@@ -277,6 +274,7 @@ class Simulation(object):
         self.__grassUDE.setIV(self.__constants.get("GrassIV"))
         self.__prarieDogUDE.setIV(self.__constants.get("PrarieDogIV"))
 
+    #Were just gonna assume that the user enters a correct file for now
     def setResultsFile(self, filePath: str) -> None:
         self.__csvFile.read(filePath)
 
@@ -291,10 +289,6 @@ class Simulation(object):
                     [self.__grassUDE.getIndependentVar(),\
                     self.__grassUDE.getDependentVar(),\
                     self.__prarieDogUDE.getDependentVar()])
-            
-            grassPnt=self.__grassUDE.getDataPoint()
-            prarieDogPnt=self.__prarieDogUDE.getDataPoint()
-            print("Grass:: {0}: {1}  PrarieDog:: {2}: {3}".format(grassPnt.x,grassPnt.y,prarieDogPnt.x,prarieDogPnt.y))
 
     def getDataPoint(self, time: float):
         tempList=self.__csvFile.lookupDataRow(str(time))
@@ -321,3 +315,6 @@ def debug() -> None:
 
 if __name__=="__main__":
     debug()
+    sim=Simulation(GivenNumbers("data/Inputs.txt"))
+    sim.run()
+    sim.save()
