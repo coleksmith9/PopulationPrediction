@@ -1,0 +1,448 @@
+[33mcommit e1c171650a063dc0945d247395228484eeb38117[m[33m ([m[1;36mHEAD -> [m[1;32mpythonImplementation[m[33m)[m
+Author: carmichaeljr <carmichaeljr@outlook.com>
+Date:   Mon Mar 2 20:47:14 2020 -0700
+
+    Nightly 03/02/2020
+
+[1mdiff --git a/CSVFile.cpp b/CSVFile.cpp[m
+[1mdeleted file mode 100644[m
+[1mindex e923008..0000000[m
+[1m--- a/CSVFile.cpp[m
+[1m+++ /dev/null[m
+[36m@@ -1,79 +0,0 @@[m
+[31m-#include "CSVFile.hpp"[m
+[31m-#include <algorithm>[m
+[31m-#include <fstream>[m
+[31m-#include <string>[m
+[31m-#include <vector>[m
+[31m-[m
+[31m-CSVFile::CSVFile(void){[m
+[31m-	//[m
+[31m-}[m
+[31m-[m
+[31m-CSVFile::CSVFile(const std::string &fileName){[m
+[31m-	this->fileName=fileName;[m
+[31m-}[m
+[31m-[m
+[31m-void CSVFile::setFileName(const std::string &fileName){[m
+[31m-	this->fileName=fileName;[m
+[31m-}[m
+[31m-[m
+[31m-void CSVFile::addHeader(std::string header){[m
+[31m-	this->headers.push_back(header);[m
+[31m-}[m
+[31m-[m
+[31m-void CSVFile::addDataRow(std::vector<double> &row){[m
+[31m-	this->data.push_back(row);[m
+[31m-}[m
+[31m-[m
+[31m-void CSVFile::setDataRow(const int index, const std::vector<double> &row){[m
+[31m-	if (index<this->data.size()){[m
+[31m-		this->data.at(index)=row;[m
+[31m-	}[m
+[31m-}[m
+[31m-[m
+[31m-const std::vector<double>& CSVFile::getDataRow(const int index) const {[m
+[31m-	if (index<this->data.size()){[m
+[31m-		return this->data.at(index);[m
+[31m-	}[m
+[31m-	return this->data.at(0);[m
+[31m-}[m
+[31m-[m
+[31m-double CSVFile::getDataRowAndHeader(const int index, const std::string &header) const {[m
+[31m-	const int headerIndex=std::distance(this->headers.begin(),[m
+[31m-			std::find(this->headers.begin(),this->headers.end(),header));[m
+[31m-	if (index<this->data.size() && headerIndex<this->headers.size()){[m
+[31m-		return this->data.at(index).at(headerIndex);[m
+[31m-	}[m
+[31m-	return 0;[m
+[31m-}[m
+[31m-[m
+[31m-void CSVFile::writeFile(void){[m
+[31m-	if (this->fileName.size()>0 && this->headers.size()>0){[m
+[31m-		std::ofstream oFile(this->fileName);[m
+[31m-		for (unsigned int i=0; i<this->headers.size(); i++){[m
+[31m-			oFile << this->headers.at(i);[m
+[31m-			if (i!=this->headers.size()-1){[m
+[31m-				oFile << ",";[m
+[31m-			}[m
+[31m-		}[m
+[31m-		oFile << std::endl;[m
+[31m-		for (unsigned int i=0; i<this->data.size(); i++){[m
+[31m-			for (unsigned int j=0; j<this->data.at(i).size(); j++){[m
+[31m-				oFile << this->data.at(i).at(j);[m
+[31m-				if (j!=this->data.at(i).size()-1){[m
+[31m-					oFile << ",";[m
+[31m-				}[m
+[31m-			}[m
+[31m-			oFile << std::endl;[m
+[31m-		}[m
+[31m-		oFile.close();[m
+[31m-	}[m
+[31m-}[m
+[31m-[m
+[31m-void CSVFile::clear(void){[m
+[31m-	this->writeFile();[m
+[31m-	this->headers.clear();[m
+[31m-	for (unsigned int i=0; i<this->data.size(); i++){[m
+[31m-		this->data.at(i).clear();[m
+[31m-	}[m
+[31m-	this->data.clear();[m
+[31m-}[m
+[1mdiff --git a/CSVFile.hpp b/CSVFile.hpp[m
+[1mdeleted file mode 100644[m
+[1mindex 0668cab..0000000[m
+[1m--- a/CSVFile.hpp[m
+[1m+++ /dev/null[m
+[36m@@ -1,26 +0,0 @@[m
+[31m-#ifndef CSV_FILE[m
+[31m-#define CSV_FILE[m
+[31m-[m
+[31m-#include <fstream>[m
+[31m-#include <string>[m
+[31m-#include <vector>[m
+[31m-[m
+[31m-class CSVFile {[m
+[31m-	public:[m
+[31m-		CSVFile(void);[m
+[31m-		explicit CSVFile(const std::string &fileName);[m
+[31m-		void setFileName(const std::string &fileName);[m
+[31m-		void addHeader(std::string header);[m
+[31m-		void addDataRow(std::vector<double> &row);[m
+[31m-		void setDataRow(const int index, const std::vector<double> &row);[m
+[31m-		const std::vector<double>& getDataRow(const int index) const;[m
+[31m-		double getDataRowAndHeader(const int index, const std::string &header) const;[m
+[31m-		void writeFile(void);[m
+[31m-		void clear(void);[m
+[31m-	private:[m
+[31m-		std::vector<std::string> headers;[m
+[31m-		std::vector<std::vector<double>> data;[m
+[31m-		std::string fileName;[m
+[31m-};[m
+[31m-[m
+[31m-#endif[m
+[1mdiff --git a/ConstantContainer.cpp b/ConstantContainer.cpp[m
+[1mdeleted file mode 100644[m
+[1mindex c6c40a3..0000000[m
+[1m--- a/ConstantContainer.cpp[m
+[1m+++ /dev/null[m
+[36m@@ -1,29 +0,0 @@[m
+[31m-#include "ConstantContainer.hpp"[m
+[31m-#include <fstream>[m
+[31m-#include <utility>[m
+[31m-#include <string>[m
+[31m-#include <map>[m
+[31m-[m
+[31m-ConstantContainer::ConstantContainer(const std::string &fileName){[m
+[31m-	std::ifstream iFile(fileName);[m
+[31m-	this->fail=iFile.fail();[m
+[31m-	if (!this->fail){[m
+[31m-		this->parseRawData(iFile);[m
+[31m-		iFile.close();[m
+[31m-	}[m
+[31m-}[m
+[31m-[m
+[31m-double ConstantContainer::getConstant(const std::string &id) const {[m
+[31m-	if (this->constants.count(id)==1){[m
+[31m-		return this->constants.at(id);[m
+[31m-	}[m
+[31m-	return 0;[m
+[31m-}[m
+[31m-[m
+[31m-void ConstantContainer::parseRawData(std::ifstream &iFile){[m
+[31m-	while (!iFile.eof()){[m
+[31m-		std::pair<std::string,double> iterPair;[m
+[31m-		iFile >> iterPair.first >> iterPair.second;[m
+[31m-		this->constants.insert(iterPair);[m
+[31m-	}[m
+[31m-}[m
+[1mdiff --git a/ConstantContainer.hpp b/ConstantContainer.hpp[m
+[1mdeleted file mode 100644[m
+[1mindex 1b86a26..0000000[m
+[1m--- a/ConstantContainer.hpp[m
+[1m+++ /dev/null[m
+[36m@@ -1,18 +0,0 @@[m
+[31m-#ifndef CONSTANT_CONTAINER[m
+[31m-#define CONSTANT_CONTAINER[m
+[31m-[m
+[31m-#include <fstream>[m
+[31m-#include <string>[m
+[31m-#include <map>[m
+[31m-[m
+[31m-class ConstantContainer {[m
+[31m-	public:[m
+[31m-		explicit ConstantContainer(const std::string &fileName);[m
+[31m-		double getConstant(const std::string &id) const;[m
+[31m-	private:[m
+[31m-		void parseRawData(std::ifstream &iFile);[m
+[31m-		std::map<std::string,double> constants;[m
+[31m-		bool fail;[m
+[31m-};[m
+[31m-[m
+[31m-#endif[m
+[1mdiff --git a/GrassDiffEq.cpp b/GrassDiffEq.cpp[m
+[1mdeleted file mode 100644[m
+[1mindex 62e578d..0000000[m
+[1m--- a/GrassDiffEq.cpp[m
+[1m+++ /dev/null[m
+[36m@@ -1,24 +0,0 @@[m
+[31m-#include "GrassDiffEq.hpp"[m
+[31m-#include "UnsolvedDiffEq.hpp"[m
+[31m-#include "ConstantContainer.hpp"[m
+[31m-#include <string>[m
+[31m-#include <memory>[m
+[31m-#include <iostream>[m
+[31m-[m
+[31m-GrassDiffEq::GrassDiffEq(const std::string &funcName): UnsolvedDiffEq::UnsolvedDiffEq(funcName) {[m
+[31m-	//[m
+[31m-}[m
+[31m-[m
+[31m-void GrassDiffEq::setPrarieDogRef(const std::shared_ptr<UnsolvedDiffEq> &prarieDogDERef){[m
+[31m-	this->prarieDogDERef=prarieDogDERef;[m
+[31m-}[m
+[31m-[m
+[31m-void GrassDiffEq::incrementIndependentVar(void){[m
+[31m-	UnsolvedDiffEq::incrementIndependentVar();[m
+[31m-}[m
+[31m-[m
+[31m-double GrassDiffEq::calculateValue(void){[m
+[31m-	const double popGrowth=UnsolvedDiffEq::constants->getConstant("GrassGrowthRate")*UnsolvedDiffEq::getDependentVar();[m
+[31m-	const double popDecline=UnsolvedDiffEq::constants->getConstant("GrassEaten")*UnsolvedDiffEq::getDependentVar()*this->prarieDogDERef->getDependentVar();[m
+[31m-	return popGrowth-popDecline;[m
+[31m-}[m
+[1mdiff --git a/GrassDiffEq.hpp b/GrassDiffEq.hpp[m
+[1mdeleted file mode 100644[m
+[1mindex bb2dfde..0000000[m
+[1m--- a/GrassDiffEq.hpp[m
+[1m+++ /dev/null[m
+[36m@@ -1,19 +0,0 @@[m
+[31m-#ifndef GRASS_DE[m
+[31m-#define GRASS_DE[m
+[31m-[m
+[31m-#include "UnsolvedDiffEq.hpp"[m
+[31m-#include "ConstantContainer.hpp"[m
+[31m-#include <string>[m
+[31m-#include <memory>[m
+[31m-[m
+[31m-class GrassDiffEq: public UnsolvedDiffEq {[m
+[31m-	public:[m
+[31m-		explicit GrassDiffEq(const std::string &funcName);[m
+[31m-		void incrementIndependentVar(void);[m
+[31m-		void setPrarieDogRef(const std::shared_ptr<UnsolvedDiffEq> &prarieDogDERef);[m
+[31m-	protected:[m
+[31m-		double calculateValue(void) override;[m
+[31m-		std::shared_ptr<UnsolvedDiffEq> prarieDogDERef;[m
+[31m-};[m
+[31m-[m
+[31m-#endif[m
+[1mdiff --git a/PrarieDogDiffEq.cpp b/PrarieDogDiffEq.cpp[m
+[1mdeleted file mode 100644[m
+[1mindex 5731975..0000000[m
+[1m--- a/PrarieDogDiffEq.cpp[m
+[1m+++ /dev/null[m
+[36m@@ -1,20 +0,0 @@[m
+[31m-#include "PrarieDogDiffEq.hpp"[m
+[31m-#include "UnsolvedDiffEq.hpp"[m
+[31m-#include "ConstantContainer.hpp"[m
+[31m-#include <string>[m
+[31m-#include <memory>[m
+[31m-#include <cmath>[m
+[31m-[m
+[31m-PrarieDogDiffEq::PrarieDogDiffEq(const std::string &funcName): UnsolvedDiffEq::UnsolvedDiffEq(funcName) {[m
+[31m-	//[m
+[31m-}[m
+[31m-[m
+[31m-void PrarieDogDiffEq::setGrassRef(const std::shared_ptr<UnsolvedDiffEq> &grassDERef){[m
+[31m-	this->grassDERef=grassDERef;[m
+[31m-}[m
+[31m-[m
+[31m-double PrarieDogDiffEq::calculateValue(void){[m
+[31m-	const double popGrowth=UnsolvedDiffEq::constants->getConstant("PrarieDogGrowthRate")*UnsolvedDiffEq::getDependentVar()*this->grassDERef->getDependentVar();[m
+[31m-	const double popDecline=UnsolvedDiffEq::constants->getConstant("PrarieDogDeathRate")*UnsolvedDiffEq::getDependentVar();[m
+[31m-	return popGrowth-popDecline;[m
+[31m-}[m
+[1mdiff --git a/PrarieDogDiffEq.hpp b/PrarieDogDiffEq.hpp[m
+[1mdeleted file mode 100644[m
+[1mindex 781e758..0000000[m
+[1m--- a/PrarieDogDiffEq.hpp[m
+[1m+++ /dev/null[m
+[36m@@ -1,18 +0,0 @@[m
+[31m-#ifndef PRARIE_DOG_DE[m
+[31m-#define PRARIE_DOG_DE[m
+[31m-[m
+[31m-#include "UnsolvedDiffEq.hpp"[m
+[31m-#include "ConstantContainer.hpp"[m
+[31m-#include <string>[m
+[31m-#include <memory>[m
+[31m-[m
+[31m-class PrarieDogDiffEq: public UnsolvedDiffEq {[m
+[31m-	public:[m
+[31m-		explicit PrarieDogDiffEq(const std::string &funcName);[m
+[31m-		void setGrassRef(const std::shared_ptr<UnsolvedDiffEq> &grassDERef);[m
+[31m-	protected:[m
+[31m-		double calculateValue(void) override;[m
+[31m-		std::shared_ptr<UnsolvedDiffEq> grassDERef;[m
+[31m-};[m
+[31m-[m
+[31m-#endif[m
+[1mdiff --git a/README.md b/README.md[m
+[1mdeleted file mode 100644[m
+[1mindex 4273bad..0000000[m
+[1m--- a/README.md[m
+[1m+++ /dev/null[m
+[36m@@ -1,19 +0,0 @@[m
+[31m-# PopulationPrediction[m
+[31m-Given initial populations, this program can predict the stable population sizes using Lotka–Volterra differential equation.[m
+[31m-[m
+[31m-### Building[m
+[31m-To compile the program use the following command. The current directory must be the top level project folder.[m
+[31m-[m
+[31m-`g++ *.hpp *.cpp -I./include -o main.exe -L./lib -lsfml-graphics -lsfml-window -lsfml-system`[m
+[31m-[m
+[31m-To execute the program use the following command.[m
+[31m-[m
+[31m-`./main`[m
+[31m-[m
+[31m-### Todo:[m
+[31m-1. Draft a UI, each person does as part of there "Looks Like" project[m
+[31m-1. Draft program (UML, define what it needs to do)[m
+[31m-1. Create UI framework[m
+[31m-    1. Base Widgets: frame, button, textbox, etc.[m
+[31m-    1. Other Widgets: graph, etc.[m
+[31m-1. Create UI[m
+[1mdiff --git a/Simulation.cpp b/Simulation.cpp[m
+[1mdeleted file mode 100644[m
+[1mindex 74530f7..0000000[m
+[1m--- a/Simulation.cpp[m
+[1m+++ /dev/null[m
+[36m@@ -1,77 +0,0 @@[m
+[31m-#include "Simulation.hpp"[m
+[31m-#include "ConstantContainer.hpp"[m
+[31m-#include "PrarieDogDiffEq.hpp"[m
+[31m-#include "GrassDiffEq.hpp"[m
+[31m-#include "CSVFile.hpp"[m
+[31m-#include <iostream>[m
+[31m-#include <memory>[m
+[31m-[m
+[31m-Simulation::Simulation(void){[m
+[31m-	this->createConstCont();[m
+[31m-	this->createDEModels();[m
+[31m-	this->createCSVFile();[m
+[31m-	this->initilizeDEModels();[m
+[31m-}[m
+[31m-[m
+[31m-void Simulation::createConstCont(void){[m
+[31m-	this->constants=std::shared_ptr<ConstantContainer>(new ConstantContainer("data/constants.txt"));[m
+[31m-}[m
+[31m-[m
+[31m-void Simulation::createDEModels(void){[m
+[31m-	this->grassDE=std::shared_ptr<GrassDiffEq>(new GrassDiffEq("GrassPopulation"));[m
+[31m-	this->prarieDogDE=std::shared_ptr<PrarieDogDiffEq>(new PrarieDogDiffEq("PrarieDogPopulation"));[m
+[31m-}[m
+[31m-[m
+[31m-void Simulation::createCSVFile(void){[m
+[31m-	this->csvFile=std::shared_ptr<CSVFile>(new CSVFile());[m
+[31m-	this->csvFile->addHeader("Time");[m
+[31m-	this->csvFile->addHeader(this->grassDE->getFuncName());[m
+[31m-	this->csvFile->addHeader(this->prarieDogDE->getFuncName());[m
+[31m-}[m
+[31m-[m
+[31m-void Simulation::initilizeDEModels(void){[m
+[31m-	std::shared_ptr<UnsolvedDiffEq> grassTemp=grassDE;[m
+[31m-	std::shared_ptr<UnsolvedDiffEq> prarieDogTemp=prarieDogDE;[m
+[31m-[m
+[31m-	this->grassDE->setPrarieDogRef(prarieDogTemp);[m
+[31m-	this->grassDE->setConstants(this->constants);[m
+[31m-	this->grassDE->setIndependentVarStep(this->constants->getConstant("TimeStep"));[m
+[31m-	this->grassDE->setDependentVarInitialValue(this->constants->getConstant("GrassIV"));[m
+[31m-[m
+[31m-	this->prarieDogDE->setGrassRef(grassTemp);[m
+[31m-	this->prarieDogDE->setConstants(this->constants);[m
+[31m-	this->prarieDogDE->setIndependentVarStep(this->constants->getConstant("TimeStep"));[m
+[31m-	this->prarieDogDE->setDependentVarInitialValue(this->constants->getConstant("PrarieDogIV"));[m
+[31m-}[m
+[31m-[m
+[31m-void Simulation::resetCSVFile(void){[m
+[31m-	this->csvFile->clear();[m
+[31m-	this->csvFile->addHeader("Time");[m
+[31m-	this->csvFile->addHeader(this->grassDE->getFuncName());[m
+[31m-	this->csvFile->addHeader(this->prarieDogDE->getFuncName());[m
+[31m-	this->setOutputFileName();[m
+[31m-}[m
+[31m-[m
+[31m-void Simulation::setOutputFileName(void){[m
+[31m-	std::string temp;[m
+[31m-	std::cout << "Please enter a file for output (ie. results.csv): ";[m
+[31m-	getline(std::cin,temp);[m
+[31m-	this->csvFile->setFileName(temp);[m
+[31m-}[m
+[31m-[m
+[31m-void Simulation::run(void){[m
+[31m-	this->resetCSVFile();[m
+[31m-	for (int i=0; i<this->constants->getConstant("SimulationLength"); i++){[m
+[31m-		this->grassDE->incrementIndependentVar();[m
+[31m-		this->prarieDogDE->incrementIndependentVar();[m
+[31m-[m
+[31m-		this->grassDE->calculateNewVal();[m
+[31m-		this->prarieDogDE->calculateNewVal();[m
+[31m-[m
+[31m-		std::vector<double> iterData={ (double)i,grassDE->getDependentVar(), prarieDogDE->getDependentVar() };[m
+[31m-		this->csvFile->addDataRow(iterData);[m
+[31m-		//std::cout << "Grass DE:: Independent Var: " << grassDE->getIndependentVar() << " Dependent Var: " << grassDE->getDependentVar() << "   ";[m
+[31m-		//std::cout << "Prarie Dog DE:: Independent Var: " << prarieDogDE->getIndependentVar() << " Dependent Var: " << prarieDogDE->getDependentVar() << std::endl;[m
+[31m-	}[m
+[31m-	this->csvFile->writeFile();[m
+[31m-}[m
+[1mdiff --git a/Simulation.hpp b/Simulation.hpp[m
+[1mdeleted file mode 100644[m
+[1mindex 893dfee..0000000[m
+[1m--- a/Simulation.hpp[m
+[1m+++ /dev/null[m
+[36m@@ -1,27 +0,0 @@[m
+[31m-#ifndef SIMULATION[m
+[31m-#define SIMULATION[m
+[31m-[m
+[31m-#include "ConstantContainer.hpp"[m
+[31m-#include "PrarieDogDiffEq.hpp"[m
+[31m-#include "GrassDiffEq.hpp"[m
+[31m-#include "CSVFile.hpp"[m
+[31m-#include <memory>[m
+[31m-[m
+[31m-class Simulation {[m
+[31m-	public:[m
+[31m-		Simulation(void);[m
+[31m-		void run(void);[m
+[31m-	private:[m
+[31m-		void createConstCont(void);[m
+[31m-		void createDEModels(void);[m
+[31m-		void createCSVFile(void);[m
+[31m-		void initilizeDEModels(void);[m
+[31m-		void resetCSVFile(void);[m
+[31m-		void setOutputFileName(void);[m
+[31m-		std::shared_ptr<CSVFile> csvFile;[m
+[31m-		std::shared_ptr<ConstantContainer> constants;[m
+[31m-		std::shared_ptr<GrassDiffEq> grassDE;[m
+[31m-		std::shared_ptr<PrarieDogDiffEq> prarieDogDE;[m
+[31m-};[m
+[31m-[m
+[31m-#endif[m
+[1mdiff --git a/UnsolvedDiffEq.cpp b/UnsolvedDiffEq.cpp[m
+[1mdeleted file mode 100644[m
+[1mindex 9d5e2bc..0000000[m
+[1m--- a/UnsolvedDiffEq.cpp[m
+[1m+++ /dev/null[m
+[36m@@ -1,55 +0,0 @@[m
+[31m-#include "UnsolvedDiffEq.hpp"[m
+[31m-#include "ConstantContainer.hpp"[m
+[31m-#include <Utility>[m
+[31m-#include <string>[m
+[31m-#include <memory>[m
+[31m-[m
+[31m-UnsolvedDiffEq::UnsolvedDiffEq(const std::string &funcName){[m
+[31m-	this->funcName=funcName;[m
+[31m-	this->independentVarStep=0;[m
+[31m-	this->independentVar=0;[m
+[31m-}[m
+[31m-[m
+[31m-void UnsolvedDiffEq::setIndependentVar(double indepententVar){[m
+[31m-	this->indepen
