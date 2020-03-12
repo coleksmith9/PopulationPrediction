@@ -1,0 +1,100 @@
+html {
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    background: #eee;
+    margin: 0px;
+    font-family: 'Roboto';
+    height: 100%;
+    width: 100%;
+}
+
+.titlebar {
+    height: 39px;
+    background: #ddd;
+    width: 100%;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 39px;
+}
+
+.outer-graph {
+    width: 100%;
+    text-align: center;
+    height: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.graph-div {
+    width: 90%;
+    height: 90%;
+    resize: both;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* background: green; */
+}
+
+canvas {
+    width: 90%;
+    height: 90%;
+}
+
+.outer-div {
+    width: 100%;
+    min-height: 20%;
+    display: table;
+    position: relative;
+}
+
+.inputs {
+    display: table-row;
+    width: 40%;
+    height: 100%;
+    margin: 5%;
+    justify-content: stretch;
+    float: left;
+}
+
+.outputs {
+    display: table-row;
+    width: 40%;
+    height: 100%;
+    margin: 5%;
+    float: right;
+    justify-content: stretch;
+}
+
+.buttons {
+    position: absolute;
+    width: 20px;
+    bottom: 20px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+label {
+    padding: 10px;
+}
+
+form {
+    overflow: hidden;
+}
+
+input {
+    float: right;
+    clear: both;
+}
+
+select {
+    float: right;
+    clear: both;
+}

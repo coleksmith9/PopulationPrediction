@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="./styles.css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <title>Population Predictor</title>
+    <meta charset="utf-8" />
+</head>
+
+<body>
+    <div class="outer-graph">
+        <div class="graph-div">
+            <canvas id="graph"></canvas>
+        </div>
+    </div>
+    <div class="outer-div">
+        <div class="inputs">
+            <form>
+                <label for="prairie-dogs">Prairie Dogs:</label>
+                <input type="number" id="prairie-dogs" min="1"><br><br>
+
+                <label for="vegetation">vegetation:</label>
+                <input type="number" id="vegetation" min="1"><br><br>
+
+                <label for="livestock-capacity">Livestock Capacity:</label>
+                <input type="number" class="livestock-capacity" min="1"><br><br>
+
+                <label for="time-interval">Time Interval:</label>
+                <input type="number" id="time-interval" min="1"><br><br>
+
+                <label for="rainfall">Rainfall:</label>
+                <select id="rainfall">
+                    <option value="high">High</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Low">Low</option>
+                </select><br><br>
+            </form>
+        </div>
+
+        <div class="outputs">
+            <form>
+                <label for="equilibrium-prairie-dogs">Equilibrium Population:</label>
+                <input type="number" class="equilibrium-prairie-dogs" readonly><br><br>
+
+                <label for="remaining-grass-coverage">Remaining Grass Coverage:</label>
+                <input type="number" class="remaining-grass-coverage" readonly><br><br>
+
+                <label for="loss-of-livestock">Loss of Livestock Capacity:</label>
+                <input type="number" class="loss-of-livestock" readonly><br><br>
+            </form>
+        </div>
+
+        <div class="buttons">
+            <button class="reset">Reset</button>
+            <button id="run">Run</button>
+        </div>
+    </div>
+    <script type="text/javascript" src="./renderer.js"></script>
+</body>
+
+</html>
